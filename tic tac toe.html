@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: #90e0ef;  
+            text-align: center;
+        }
+        .cont{
+            height: 70vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            /* border: 2px solid black; */
+
+        }
+        .game{
+            height: 60vmin;
+            width: 60vmin;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5vmin;
+        }
+        .box{
+            height: 18vmin;
+            width: 18vmin;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border: none;
+            border-radius: 10%;
+            font-size: 8vmin;
+            color: #03045e;
+        }
+        .reset{
+            padding: 1rem;
+            margin: 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #0096c7;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            border-radius: 30%;
+            border: none;
+
+        }
+        .newGame{
+            padding: 1rem;
+            margin: 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #0096c7;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            border-radius: 30%;
+            border: none;
+        }
+        .win{
+            text-align: center;
+            visibility: hidden;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>Tic Tac Toe</h1>
+        <h2 class="win">Winner </h2>
+        <div class="cont">
+            <div class="game">
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+            </div>
+        </div>
+        <button class="newGame">New Game</button>
+        <button class="reset">Reset Game</button>
+    </main>
+    <script src="ttt.js"></script>
+</body>
+
+</html>
