@@ -1,0 +1,73 @@
+<!-- This is the Login page in which if user exists in local storage logsin but if it is not then he/she needs to bs signup and then again login -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe | Login</title>
+  <style>
+    /* The css for the whole body */
+    body {
+      font-family: Arial;
+      background-color: #90e0ef;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 300px;
+    }
+
+    input {
+      width: 90%;
+      padding: 8px;
+      margin: 8px 0;
+    }
+
+    button {
+      background: #0096c7;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #0077a7;
+    }
+
+    p {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    a {
+      color: #0077a7;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- login page -->
+  <div class="container">
+    <h2 id="formTitle">Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button id="submitBtn">Login</button>
+    <p id="toggleText">Don't have an account? <a id="toggleLink">Signup</a></p>
+  </div>
+
+  <script src="auth.js"></script>
+</body>
+</html>
