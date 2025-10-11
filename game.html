@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Tic Tac Toe</h1>
+    <p>Welcome, <span id="playerName"></span>!</p>
+    <h2 class="win">Winner</h2>
+    <div class="cont">
+      <div class="game">
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+      </div>
+    </div>
+    <button class="newGame">New Game</button>
+    <button class="reset">Reset Game</button>
+    <button onclick="goToScore()">Scoreboard</button>
+    <button onclick="logout()">Logout</button>
+  </main>
+  <script src="ttt.js"></script>
+  <script>
+    // Check if user logged in
+    const user = localStorage.getItem('currentUser');
+    if(!user){
+      window.location.href = 'index.html';
+    } else {
+      document.getElementById('playerName').textContent = user;
+    }
+
+    // Initialize scores if they don't exist or ensure proper structure
+    if (!localStorage.getItem('scores')) {
+      localStorage.setItem('scores', JSON.stringify({ X: 0, O: 0, Draws: 0 }));
+    }
+    
+    // if scores of x,o,draw are not there so initialize them to 0
+    let scores = JSON.parse(localStorage.getItem('scores'));
+    if (!scores.X) scores.X = 0;
+    if (!scores.O) scores.O = 0;
+    if (!scores.Draws) scores.Draws = 0;
+    localStorage.setItem('scores', JSON.stringify(scores));
+
+    // Override gameDraw function
+    window.gameDraw = () => {
+      winMsg.innerText = `Game ended in a Draw!`;
+      winMsg.style.visibility = "visible";
+      disableBoxes();
+      handleDraw();
+    };
+
+    // remove the current User and we needs to login again
+    function logout(){
+      localStorage.removeItem('currentUser');
+      window.location.href = 'index.html';
+    }
+
+    // redirects to score.html page
+    function goToScore(){
+      window.location.href = 'score.html';
+    }
+  </script>
+</body>
+</html>
