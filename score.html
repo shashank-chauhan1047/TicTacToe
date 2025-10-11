@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scoreboard</title>
+  <style>
+    body {
+      background: #90e0ef;
+      font-family: Arial;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 10px 20px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #0096c7;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f0f0f0;
+    }
+
+    .game-stats {
+      margin: 20px auto;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      max-width: 300px;
+    }
+
+    .game-stats p {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      background: #0096c7;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background: #0077a7;
+    }
+
+    .reset-stats {
+      background: #dc3545;
+    }
+
+    .reset-stats:hover {
+      background: #bb2d3b;
+    }
+
+    h2 {
+      color: #03045e;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Scoreboard</h1>
+  <h2>Game Statistics</h2>
+  <table id="scoreTable">
+    <thead>
+      <tr>
+        <th>Result</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div class="game-stats">
+    <p>Total Games: <span id="totalGames">0</span></p>
+  </div>
+  <button onclick="goBack()">Back to Game</button>
+  <button onclick="resetStats()" class="reset-stats">Reset Statistics</button>
+
+  <script>
+    // Function to refresh scores
+    function refreshScores() {
+      // we get the table body access
+      const tbody = document.querySelector('#scoreTable tbody');
+      // Clear existing rows from tbody to repaint again
+      tbody.innerHTML = '';
+      
+      // we get the scores from the local storage if there are already otherwise 0
+      let scores = JSON.parse(localStorage.getItem('scores')) || { X: 0, O: 0, Draws: 0 };
+      // Ensure all properties exist
+      if (!scores.Draws) scores.Draws = 0;
+      if (!scores.X) scores.X = 0;
+      if (!scores.O) scores.O = 0;
+      console.log('Current scores with draws:', scores);
+      
+      // Show X, O, and Draws in the table
+      const results = [
+        { label: 'Player X', value: scores.X },
+        { label: 'Player O', value: scores.O },
+        { label: 'Draws', value: scores.Draws }
+      ];
+      
+      // Create table rows for X, O and Draws, runs over this array and create a row containing the score
+      results.forEach(result => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${result.label}</td><td>${result.value}</td>`;
+        tbody.appendChild(row);
+      });
+
+      // Update total games count
+      const totalGames = (scores.X || 0) + (scores.O || 0) + (scores.Draws || 0);
+      document.getElementById('totalGames').textContent = totalGames;
+    }
+
+    // Function to reset statistics
+    function resetStats() {
+      // shows a confirmation box to verify
+      if (confirm('Are you sure you want to reset all game statistics?')) {
+        // set the scores as 0 again
+        const resetScores = { X: 0, O: 0, Draws: 0 };
+        localStorage.setItem('scores', JSON.stringify(resetScores));
+        console.log('Scores reset to:', resetScores);
+        // and repaint the table
+        refreshScores();
+      }
+    }
+
+    // when we open score.html page this function refreshScores runs 
+    refreshScores();
+
+    // this function redirects me back to the game.html file
+    function goBack(){
+      window.location.href = 'game.html';
+    }
+  </script>
+</body>
+</html>
