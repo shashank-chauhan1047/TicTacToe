@@ -18,11 +18,20 @@ const winPatterns = [
   [6, 7, 8],
 ];
 
+// Add event listeners for New Game and Reset buttons
+newGameBtn.addEventListener("click", () => {
+  resetGame();
+});
+
+resetBtn.addEventListener("click", () => {
+  resetGame();
+});
+
 // Set the start from O
 const resetGame = () => {
   turnO = true;
   count = 0;        // game starts, so count is 0
-  enableBoxes();
+  enableBoxes();    
   // In Starting the winning message is hiddden
   winMsg.style.visibility = "hidden";
 };
@@ -31,6 +40,10 @@ const resetGame = () => {
 // and the function inside it will be executed, set the text inside it and disable it so no one can chage it further
 boxes.forEach((box) => {
   box.addEventListener("click", () => {
+    if (winMsg.style.visibility === "visible") {
+      return; // Prevent moves after game is over
+    }
+    
     if (turnO) {
       //playerO
       box.innerText = "O";
@@ -55,13 +68,19 @@ boxes.forEach((box) => {
 
 
 const gameDraw = () => {
-  winMsg.innerText = `Game was a Draw.`;
+  winMsg.innerText = `Game ended in a Draw!`;
   // Game is Draw if the count is 9 and there is no winner
   winMsg.style.visibility = "visible";
   disableBoxes();
+  
+  // Update score for draw directly in localStorage
+  let scores = JSON.parse(localStorage.getItem('scores')) || { X: 0, O: 0, Draws: 0 };
+  scores.Draws = (scores.Draws || 0) + 1;
+  localStorage.setItem('scores', JSON.stringify(scores));
+  console.log('Game ended in draw, updated scores:', scores);
 };
 
-// diable all boxes after game is over
+// diable all boxes after game is over, not able to edit the boxes
 const disableBoxes = () => {
   for (let box of boxes) {
     box.disabled = true;
@@ -76,12 +95,19 @@ const enableBoxes = () => {
   }
 };
 
+// if on of the  pattern matches we set the win message for the use (X,O)
 const showWinner = (winner) => {
-  winMsg.innerText = `Congratulations, Winner is ${winner}`;
+  winMsg.innerText = `Congratulations, Player ${winner} wins!`;
   winMsg.style.visibility = "visible";
-  disableBoxes();
+  disableBoxes(); // then disable the boxes
+  
+  // Update scores directly here
+  let scores = JSON.parse(localStorage.getItem('scores')) || { X: 0, O: 0 };  // update the count in local storage 
+  scores[winner]++;
+  localStorage.setItem('scores', JSON.stringify(scores)); 
 };
 
+// The box is a array containing all the boxes and we runs this pattern over those boxes and check their values if all 3 are equal then we got the current player as our winner
 const checkWinner = () => {
   for (let pattern of winPatterns) {
     let pos1Val = boxes[pattern[0]].innerText;
